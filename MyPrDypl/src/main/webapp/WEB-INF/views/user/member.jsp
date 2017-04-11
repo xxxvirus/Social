@@ -52,6 +52,7 @@
 }
 .postText{
 	padding:5px;
+	word-wrap:break-word;
 }
 .postButton{
 	margin-top:5px;
@@ -111,6 +112,11 @@
     					</div>
     					</div>
     					<div class="form-group">
+    					<div class="col-sm-10">
+      						<input name="key" class="form-control"/>
+    					</div>
+    					</div>
+    					<div class="form-group">
     					<div class="col-sm-2">
       						<button type="submit" class="btn btn-success btn-block">Add Post</button>
     					</div>
@@ -120,7 +126,7 @@
 				</c:if>
 				<c:forEach items="${posts}" var="post">
 					<div class="row post">
-						<div class="col-md-10 postText">${post.text}</div>
+						<div class="col-md-10 postText"><p>${post.text}</p></div>
 						<sec:authentication property="principal.id" var="userId"/>
 						<c:if test="${userId == users.id}">
 						<div class="col-md-2 postButton">

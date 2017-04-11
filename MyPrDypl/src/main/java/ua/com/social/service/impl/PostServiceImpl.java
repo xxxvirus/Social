@@ -3,6 +3,7 @@ package ua.com.social.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ua.com.social.dao.PostDao;
@@ -14,9 +15,12 @@ public class PostServiceImpl implements PostService{
 
 	@Autowired
 	private PostDao postDao;
+//	@Autowired
+//	private BCryptPasswordEncoder encoder;
 	
 	@Override
 	public void save(Post post) {
+//		post.setPassPost(encoder.encode(post.getPassPost()));
 		postDao.save(post);
 	}
 

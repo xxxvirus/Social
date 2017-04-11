@@ -15,6 +15,8 @@ public class Post {
 	private int id;
 	@Lob
 	private String text;
+//	private boolean encrypted = true;
+//	private String passPost;
 	@ManyToOne
 	private User user;
 
@@ -44,5 +46,21 @@ public class Post {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+//	public boolean getEncrypted() {
+//		return encrypted;
+//	}
+//
+//	public void setEncrypted(boolean encrypted) {
+//		this.encrypted = encrypted;
+//	}
+
+//	public String getPassPost() {
+//		return passPost;
+//	}
+//
+//	public void setPassPost(String passPost) {
+//		this.passPost = passPost;
+//	}
 
 }
