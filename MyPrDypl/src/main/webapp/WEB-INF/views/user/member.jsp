@@ -68,7 +68,7 @@
 				<a href="/member/<sec:authentication property="principal.id" />">My page</a>
 			</div>
 			<div class="row blockNavigationRow">
-				<a href="">My friends</a>
+				<a href="/member/<sec:authentication property="principal.id" />/friends">My friends</a>
 			</div>
 			<div class="row blockNavigationRow">
 				<a href="">My massages</a>
@@ -83,6 +83,7 @@
 				<button type="submit" class="btn btn-danger">Logout</button>
 			</form:form>
 			</sec:authorize>
+			<a class="btn btn-danger btn-xs" href="/member/${users.id}/addToFriend">add</a>
 		</div>
 	</div>
 	<div class="col-md-10">

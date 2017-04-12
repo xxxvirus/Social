@@ -9,4 +9,6 @@ public interface UserService {
 	User findByEmail(String email);
 
 	User findOne(int id);
+	
+//	User findMemberFriends(int id);
 }
