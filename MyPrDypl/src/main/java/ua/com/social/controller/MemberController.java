@@ -72,15 +72,24 @@ public class MemberController {
 	
 	@GetMapping("/addToFriend")
 	private String addToFriend(@ModelAttribute("friend") Friends friend, @PathVariable int id){
-//		User user = (User) SecurityContextHolder.getContext()
-//				.getAuthentication().getPrincipal();
-		friend = (Friends) SecurityContextHolder.getContext()
+		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		User user = userService.findOne(id);
+////		friend = (Friends) SecurityContextHolder.getContext()
+////				.getAuthentication().getPrincipal();
+//		int userId = user.getId();
+//		friend.setId(id);
+		int myId = user.getId();
+//		friend.setId(myId);
+		
+//		friend = friendsService.findMemberFriends(id);
+//		User user = userService.findOne(id);
+		user = userService.findMemberFriends(myId);
+		friend = friendsService.findOne(id);
+//		friend.setId(idd);
 		user.getFriends().add(friend);
-		friend.getUsers().add(user);
 		userService.save(user);
-		friendsService.save(friend);
+//		friend.getUsers().add(user);
+//		friendsService.save(friend);
 		return "redirect:/member/{id}";
 	}
 	

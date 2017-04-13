@@ -62,9 +62,9 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		return userDao.findOne(id);
 	}
 
-//	@Override
-//	public User findMemberFriends(int id) {
-//		return userDao.findMemberFriends(id);
-//	}
+	@Override
+	public User findMemberFriends(int id) {
+		return userDao.findMemberFriends(id);
+	}
 
 }

@@ -10,5 +10,5 @@ public interface UserService {
 
 	User findOne(int id);
 	
-//	User findMemberFriends(int id);
+	User findMemberFriends(int id);
 }
