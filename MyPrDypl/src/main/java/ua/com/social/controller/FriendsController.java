@@ -21,6 +21,7 @@ public class FriendsController {
 	
 	@GetMapping
 	public String user(Model model, @PathVariable int id){
+		model.addAttribute("userPage", userService.findOne(id));
 		model.addAttribute("friends", friendsService.findMemberFriends(id));
 		return "user-friends";
 	}

@@ -50,6 +50,7 @@ public class MemberController {
 	public String user(Model model, @PathVariable int id){
 		model.addAttribute("users", userService.findOne(id));
 		model.addAttribute("posts", postService.findByUserId(id));
+		model.addAttribute("friends", userService.findMemberFriends(id));
 		return "user-member";
 	}
 	
@@ -74,22 +75,7 @@ public class MemberController {
 	private String addToFriend(@ModelAttribute("friend") Friends friend, @PathVariable int id){
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-////		friend = (Friends) SecurityContextHolder.getContext()
-////				.getAuthentication().getPrincipal();
-//		int userId = user.getId();
-//		friend.setId(id);
-		int myId = user.getId();
-//		friend.setId(myId);
-		
-//		friend = friendsService.findMemberFriends(id);
-//		User user = userService.findOne(id);
-		user = userService.findMemberFriends(myId);
-		friend = friendsService.findOne(id);
-//		friend.setId(idd);
-		user.getFriends().add(friend);
-		userService.save(user);
-//		friend.getUsers().add(user);
-//		friendsService.save(friend);
+		userService.addFriend(user, friend, id);
 		return "redirect:/member/{id}";
 	}
 	

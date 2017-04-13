@@ -1,7 +1,5 @@
 package ua.com.social.service.impl;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,7 +7,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import ua.com.social.dao.FriendsDao;
 import ua.com.social.dao.UserDao;
+import ua.com.social.entity.Friends;
 import ua.com.social.entity.Role;
 import ua.com.social.entity.User;
 import ua.com.social.service.UserService;
@@ -20,6 +20,8 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	@Autowired
 	private UserDao userDao;
 	@Autowired
+	private FriendsDao friendsDao;
+	@Autowired
 	private BCryptPasswordEncoder encoder;
 	
 	@Override
@@ -27,6 +29,9 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		user.setRole(Role.ROLE_USER);
 		user.setPassword(encoder.encode(user.getPassword()));
 		userDao.save(user);
+		Friends friend = new Friends();
+		friend.setId(user.getId());
+		friendsDao.save(friend);
 	}
 
 	@Override
@@ -40,22 +45,22 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		return userDao.findByEmail(username);
 	}
 	
-	@PostConstruct
-	public void addAdmin(){
-		User user = userDao.findByEmail("pavlo94@admin.ua");
-		if(user==null){
-			user = new User();
-			user.setName("Pavlo");
-			user.setSurname("Admin");
-			user.setCountry("Ukraine");
-			user.setCity("Lviv");
-			user.setEmail("pavlo94@admin.ua");
-			user.setPhoneNumber("0631234567");
-			user.setPassword(encoder.encode("admin"));
-			user.setRole(Role.ROLE_ADMIN);
-			userDao.save(user);
-		}
-	}
+//	@PostConstruct
+//	public void addAdmin(){
+//		User user = userDao.findByEmail("pavlo94@admin.ua");
+//		if(user==null){
+//			user = new User();
+//			user.setName("Pavlo");
+//			user.setSurname("Admin");
+//			user.setCountry("Ukraine");
+//			user.setCity("Lviv");
+//			user.setEmail("pavlo94@admin.ua");
+//			user.setPhoneNumber("0631234567");
+//			user.setPassword(encoder.encode("admin"));
+//			user.setRole(Role.ROLE_ADMIN);
+//			userDao.save(user);
+//		}
+//	}
 
 	@Override
 	public User findOne(int id) {
@@ -65,6 +70,15 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	@Override
 	public User findMemberFriends(int id) {
 		return userDao.findMemberFriends(id);
+	}
+
+	@Override
+	public void addFriend(User user, Friends friend, int id) {
+		int myId = user.getId();
+		user = userDao.findMemberFriends(myId);
+		friend = friendsDao.findOne(id);
+		user.getFriends().add(friend);
+		userDao.save(user);
 	}
 
 }

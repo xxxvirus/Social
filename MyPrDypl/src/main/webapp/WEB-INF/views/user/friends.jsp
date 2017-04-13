@@ -26,39 +26,9 @@
 	border-radius: 2px;
 	position: relative;
     background: #fff;
-	width: 230px;
-}
-.photo{
-	padding: 15px;
-}
-.blockInfo{
-	width: 600px;
-	height:230px;
-	border-radius: 2px;
-	position: relative;
-    background: #fff;
-	margin-left: 15px;
-}
-.info{
-	padding: 15px;
-}
-.infoRow{
-	color: #828282;
-}
-.post{
-	background: #fff;
 	width: 845px;
-	margin-top:15px;
-}
-.postText{
-	padding:5px;
-	word-wrap:break-word;
-}
-.postButton{
-	margin-top:5px;
-}
-.addPost{
-	margin-top:15px;
+	padding:15px;
+	margin-top:10px;
 }
 </style>	
 	<div class="col-md-12 view">
@@ -87,7 +57,22 @@
 	</div>
 	<div class="col-md-10">
 		<c:forEach items="${friends.users}" var="user">
-			<div class="row"><a href="/member/${user.id}">${user.name} ${user.surname}</a></div>
+			<div class="row block">
+				<div class="col-md-4">
+					<a href="/member/${user.id}">${user.name} ${user.surname}</a>
+				</div>
+				<sec:authentication property="principal.id" var="userId"/>
+				<c:if test="${userId == userPage.id}">
+				<div class="col-md-4">
+					<a href="/member/${user.id}"><button type="button" class="btn btn-primary btn-xs">Send message</button></a>
+				</div>
+				<c:if test="${}">
+				<div class="col-md-4">
+					<a href="/member/${user.id}"><button type="button" class="btn btn-danger btn-xs">Remove</button></a>
+				</div>
+				</c:if>
+				</c:if>
+			</div>
 		</c:forEach>
 	</div>
 </div>
