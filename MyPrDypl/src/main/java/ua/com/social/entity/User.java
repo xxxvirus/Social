@@ -11,6 +11,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -34,6 +37,9 @@ public class User implements UserDetails {
 	private String country;
 	private String city;
 	private String phoneNumber;
+	@ManyToMany
+	@JoinTable(name = "user_friends", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_friends"))
+	private List<Friends> friends = new ArrayList<>();
 	@Enumerated
 	@Column(name = "_role")
 	private Role role;
@@ -118,6 +124,14 @@ public class User implements UserDetails {
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+
+	public List<Friends> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(List<Friends> friends) {
+		this.friends = friends;
 	}
 
 	@Override

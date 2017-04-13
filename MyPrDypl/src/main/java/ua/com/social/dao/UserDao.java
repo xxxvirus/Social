@@ -10,4 +10,8 @@ public interface UserDao extends JpaRepository<User, Integer>{
 
 	@Query("select u from User u where u.email=:param")
 	User findByEmail(@Param("param") String email);
+	
+	@Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.friends WHERE "
+			+ "u.id=:id")
+	User findMemberFriends(@Param("id") int id);
 }

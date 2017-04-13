@@ -26,14 +26,19 @@
 	border-radius: 2px;
 	position: relative;
     background: #fff;
-	width: 230px;
+	width: 180px;
+	height:252px;
 }
 .photo{
 	padding: 15px;
 }
+.blockButton{
+	padding: 15px;
+	margin-top:-15px;
+}
 .blockInfo{
 	width: 600px;
-	height:230px;
+	height:252px;
 	border-radius: 2px;
 	position: relative;
     background: #fff;
@@ -68,7 +73,7 @@
 				<a href="/member/<sec:authentication property="principal.id" />">My page</a>
 			</div>
 			<div class="row blockNavigationRow">
-				<a href="">My friends</a>
+				<a href="/member/<sec:authentication property="principal.id" />/friends">My friends</a>
 			</div>
 			<div class="row blockNavigationRow">
 				<a href="">My massages</a>
@@ -89,6 +94,22 @@
 		<div class="row">
 			<div class="col-md-4 block">
 				<div class="row photo"><img src="/resources/img/poster.jpg"></div>
+				<div class="row blockButton">
+					<sec:authentication property="principal.id" var="userId"/>
+					<c:if test="${userId != users.id}">
+					<c:forEach items="${friends.friends}" var="friend">
+					<c:if test="${friend.id != userId }">
+					<a class="btn btn-success btn-xs btn-block" href="/member/${users.id}/addToFriend">Add</a>
+					</c:if>
+					<c:if test="${friend.id == userId }">
+					<a class="btn btn-danger btn-xs btn-block" href="/member/${users.id}/addToFriend">Delete</a>
+					</c:if>
+					</c:forEach>
+					</c:if>
+				</div>
+				<div class="row blockButton">
+					<a class="btn btn-primary btn-xs btn-block" href="/member/${users.id}/addToFriend">Message</a>
+				</div>
 			</div>
 			<div class="col-md-8 blockInfo">
 				<div class="row info"><h2>${users.name} ${users.surname}</h2></div>

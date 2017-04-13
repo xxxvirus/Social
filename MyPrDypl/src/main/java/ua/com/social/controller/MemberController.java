@@ -1,6 +1,7 @@
 package ua.com.social.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ua.com.social.algoritm.AES;
+import ua.com.social.entity.Friends;
 import ua.com.social.entity.Post;
 import ua.com.social.entity.User;
+import ua.com.social.service.FriendsService;
 import ua.com.social.service.PostService;
 import ua.com.social.service.UserService;
 
@@ -23,12 +26,19 @@ public class MemberController {
 	@Autowired
 	private UserService userService;
 	@Autowired
+	private FriendsService friendsService;
+	@Autowired
 	private PostService postService;
 	private AES aes = new AES();
 	
 	@ModelAttribute("post")
 	public Post getPost() {
 		return new Post();
+	}
+	
+	@ModelAttribute("friend")
+	public Friends getFriends() {
+		return new Friends();
 	}
 	
 	@ModelAttribute("key")
@@ -40,6 +50,7 @@ public class MemberController {
 	public String user(Model model, @PathVariable int id){
 		model.addAttribute("users", userService.findOne(id));
 		model.addAttribute("posts", postService.findByUserId(id));
+		model.addAttribute("friends", userService.findMemberFriends(id));
 		return "user-member";
 	}
 	
@@ -57,6 +68,14 @@ public class MemberController {
 		String aesT = aes.encrypt(key, text);
 		post.setText(aesT);
 		postService.save(post);
+		return "redirect:/member/{id}";
+	}
+	
+	@GetMapping("/addToFriend")
+	private String addToFriend(@ModelAttribute("friend") Friends friend, @PathVariable int id){
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		userService.addFriend(user, friend, id);
 		return "redirect:/member/{id}";
 	}
 	
