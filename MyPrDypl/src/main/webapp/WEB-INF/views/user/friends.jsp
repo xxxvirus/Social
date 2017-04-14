@@ -58,19 +58,20 @@
 	<div class="col-md-10">
 		<c:forEach items="${friends.users}" var="user">
 			<div class="row block">
-				<div class="col-md-4">
+				<div class="col-md-8">
 					<a href="/member/${user.id}">${user.name} ${user.surname}</a>
+				</div>
+				<div class="col-md-2">
+					<a href="/member/${user.id}"><button type="button" class="btn btn-primary btn-xs">Send message</button></a>
 				</div>
 				<sec:authentication property="principal.id" var="userId"/>
 				<c:if test="${userId == userPage.id}">
-				<div class="col-md-4">
-					<a href="/member/${user.id}"><button type="button" class="btn btn-primary btn-xs">Send message</button></a>
+				<div class="col-md-1">
+					<a href="/member/${userId}/friends/confirm/${user.id}"><button type="button" class="btn btn-warning btn-xs">Confirm</button></a>
 				</div>
-				<c:if test="${}">
-				<div class="col-md-4">
-					<a href="/member/${user.id}"><button type="button" class="btn btn-danger btn-xs">Remove</button></a>
+				<div class="col-md-1">
+					<a href="/member/${userId}/friends/delete/${user.id}"><button type="button" class="btn btn-danger btn-xs">Remove</button></a>
 				</div>
-				</c:if>
 				</c:if>
 			</div>
 		</c:forEach>

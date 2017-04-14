@@ -37,7 +37,7 @@
 	margin-top:-15px;
 }
 .blockInfo{
-	width: 600px;
+	width: 665px;
 	height:252px;
 	border-radius: 2px;
 	position: relative;
@@ -97,14 +97,12 @@
 				<div class="row blockButton">
 					<sec:authentication property="principal.id" var="userId"/>
 					<c:if test="${userId != users.id}">
-					<c:forEach items="${friends.friends}" var="friend">
-					<c:if test="${friend.id != userId }">
+					<c:if test="${friends.id != userId }">
 					<a class="btn btn-success btn-xs btn-block" href="/member/${users.id}/addToFriend">Add</a>
 					</c:if>
-					<c:if test="${friend.id == userId }">
+					<c:if test="${friends.id == userId }">
 					<a class="btn btn-danger btn-xs btn-block" href="/member/${users.id}/addToFriend">Delete</a>
 					</c:if>
-					</c:forEach>
 					</c:if>
 				</div>
 				<div class="row blockButton">
@@ -147,10 +145,10 @@
 				</c:if>
 				<c:forEach items="${posts}" var="post">
 					<div class="row post">
-						<div class="col-md-10 postText"><p>${post.text}</p></div>
+						<div class="col-md-11 postText"><p>${post.text}</p></div>
 						<sec:authentication property="principal.id" var="userId"/>
 						<c:if test="${userId == users.id}">
-						<div class="col-md-2 postButton">
+						<div class="col-md-1 postButton">
 							<a class="btn btn-danger btn-xs" href="/member/${users.id}/delete/${post.id}">delete</a>
 						</div>
 						</c:if>

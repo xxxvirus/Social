@@ -11,4 +11,5 @@ public interface FriendsService {
 	Friends findOne(int id);
 	
 	Friends findMemberFriends(int id);
+	
 }

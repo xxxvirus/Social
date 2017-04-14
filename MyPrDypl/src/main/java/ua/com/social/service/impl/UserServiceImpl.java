@@ -15,7 +15,7 @@ import ua.com.social.entity.User;
 import ua.com.social.service.UserService;
 
 @Service("userDetailsService")
-public class UserServiceImpl implements UserService, UserDetailsService{
+public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Autowired
 	private UserDao userDao;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 	private FriendsDao friendsDao;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
+
 	@Override
 	public void save(User user) {
 		user.setRole(Role.ROLE_USER);
@@ -44,23 +44,23 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 			throws UsernameNotFoundException {
 		return userDao.findByEmail(username);
 	}
-	
-//	@PostConstruct
-//	public void addAdmin(){
-//		User user = userDao.findByEmail("pavlo94@admin.ua");
-//		if(user==null){
-//			user = new User();
-//			user.setName("Pavlo");
-//			user.setSurname("Admin");
-//			user.setCountry("Ukraine");
-//			user.setCity("Lviv");
-//			user.setEmail("pavlo94@admin.ua");
-//			user.setPhoneNumber("0631234567");
-//			user.setPassword(encoder.encode("admin"));
-//			user.setRole(Role.ROLE_ADMIN);
-//			userDao.save(user);
-//		}
-//	}
+
+	// @PostConstruct
+	// public void addAdmin(){
+	// User user = userDao.findByEmail("pavlo94@admin.ua");
+	// if(user==null){
+	// user = new User();
+	// user.setName("Pavlo");
+	// user.setSurname("Admin");
+	// user.setCountry("Ukraine");
+	// user.setCity("Lviv");
+	// user.setEmail("pavlo94@admin.ua");
+	// user.setPhoneNumber("0631234567");
+	// user.setPassword(encoder.encode("admin"));
+	// user.setRole(Role.ROLE_ADMIN);
+	// userDao.save(user);
+	// }
+	// }
 
 	@Override
 	public User findOne(int id) {
@@ -79,6 +79,17 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 		friend = friendsDao.findOne(id);
 		user.getFriends().add(friend);
 		userDao.save(user);
+	}
+
+	@Override
+	public void removeFriend(User user, Friends friend, int id) {
+		int myId = user.getId();
+		user = userDao.findMemberFriends(myId);
+		user.getFriends().removeIf(s -> s.getId() == id);
+		userDao.save(user);
+		User user2 = userDao.findMemberFriends(id);
+		user2.getFriends().removeIf(s -> s.getId() == myId);
+		userDao.save(user2);
 	}
 
 }
