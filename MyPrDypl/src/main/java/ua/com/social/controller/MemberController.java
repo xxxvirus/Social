@@ -41,11 +41,6 @@ public class MemberController {
 		return new Friends();
 	}
 	
-	@ModelAttribute("key")
-	public String getKey() {
-		return new String();
-	}
-	
 	@GetMapping
 	public String user(Model model, @PathVariable int id){
 		model.addAttribute("users", userService.findOne(id));
