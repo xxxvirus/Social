@@ -40,6 +40,9 @@ public class User implements UserDetails {
 	@ManyToMany
 	@JoinTable(name = "user_friends", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_friends"))
 	private List<Friends> friends = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "user_groups", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_groups"))
+	private List<Groups> groups = new ArrayList<>();
 	@Enumerated
 	@Column(name = "_role")
 	private Role role;
@@ -132,6 +135,14 @@ public class User implements UserDetails {
 
 	public void setFriends(List<Friends> friends) {
 		this.friends = friends;
+	}
+
+	public List<Groups> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<Groups> groups) {
+		this.groups = groups;
 	}
 
 	@Override

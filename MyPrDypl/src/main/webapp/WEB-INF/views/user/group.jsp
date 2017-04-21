@@ -26,12 +26,50 @@
 	border-radius: 2px;
 	position: relative;
     background: #fff;
-	width: 845px;
-	padding:15px;
-	margin-top:10px;
+	width: 180px;
+	height:252px;
 }
-</style>	
-	<div class="col-md-12 view">
+.blockButton{
+	padding: 15px;
+	margin-top:-15px;
+}
+.blockInfo{
+	width: 660px;
+	height:180px;
+	border-radius: 2px;
+	position: relative;
+    background: #fff;
+}
+.info{
+	padding: 15px;
+}
+.infoRow{
+	color: #828282;
+}
+.blockMembers{
+	background: #fff;
+	margin-left: 15px;
+}
+.blockMemebrs-userName{
+	margin-left: 5px;
+}
+.post{
+	background: #fff;
+	width: 855px;
+	margin-top:15px;
+}
+.postText{
+	padding:5px;
+	word-wrap:break-word;
+}
+.postButton{
+	margin-top:5px;
+}
+.addPost{
+	margin-top:15px;
+}
+</style>
+<div class="col-md-12 view">
 	<div class="col-md-2">
 		<div class="col-md-12 blockNavigation">
 			<div class="row blockNavigationRow">
@@ -50,34 +88,25 @@
 				<a href="/decrypt">AES Encryptor</a>
 			</div>
 		</div>
-		<div class="row buttonsRow">
-			<sec:authorize access="isAuthenticated()">
-			<form:form action="/logout" method="POST">
-				<button type="submit" class="btn btn-danger">Logout</button>
-			</form:form>
-			</sec:authorize>
-		</div>
 	</div>
-	<div class="col-md-10">
-		<c:forEach items="${friends.users}" var="user">
-			<div class="row block">
-				<div class="col-md-8">
-					<a href="/member/${user.id}">${user.name} ${user.surname}</a>
-				</div>
-				<div class="col-md-2">
-					<a href="/member/${user.id}"><button type="button" class="btn btn-primary btn-xs">Send message</button></a>
-				</div>
-				<sec:authentication property="principal.id" var="userId"/>
-				<c:if test="${userId == userPage.id}">
-				<div class="col-md-1">
-					<a href="/member/${userId}/friends/confirm/${user.id}"><button type="button" class="btn btn-warning btn-xs">Confirm</button></a>
-				</div>
-				<div class="col-md-1">
-					<a href="/member/${userId}/friends/delete/${user.id}"><button type="button" class="btn btn-danger btn-xs">Remove</button></a>
-				</div>
-				</c:if>
-			</div>
+	<div class="col-md-8 blockInfo">
+		<div class="row info"><h2>${groupName.nameOfG}</h2></div>
+		<hr>
+		<div class="row"><p>${groupName.aboutG}</p></div>
+	</div>
+	<div class="col-md-2 blockMembers">
+		<div class="row">
+			<a class="btn btn-success btn btn-block" href="/group/${groupName.id}/follow">Follow</a>
+		</div>
+		<div class="row">
+			<a class="btn btn-danger btn btn-block" href="/group/${groupName.id}/exit">Exit</a>
+		</div>
+		<div class="row"><h2>Members</h2></div>
+		<c:forEach items="${group.users}" var="user">
+			<div class="row blockMemebrs-userName"><a href="/member/${user.id}">${user.name} ${user.surname}</a></div>
 		</c:forEach>
 	</div>
 </div>
+	
+	
 	

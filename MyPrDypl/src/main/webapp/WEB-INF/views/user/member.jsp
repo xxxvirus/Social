@@ -76,14 +76,14 @@
 				<a href="/member/<sec:authentication property="principal.id" />/friends">My friends</a>
 			</div>
 			<div class="row blockNavigationRow">
-				<a href="">My massages</a>
+				<a href="">My messages</a>
 			</div>
 			<div class="row blockNavigationRow">
 				<a href="">My groups</a>
 			</div>
 			<div class="row blockNavigationRow">
-					<a href="/decrypt">AES Encryptor</a>
-				</div>
+				<a href="/decrypt">AES Encryptor</a>
+			</div>
 		</div>
 		<div class="row buttonsRow">
 			<sec:authorize access="isAuthenticated()">

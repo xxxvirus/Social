@@ -8,8 +8,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ua.com.social.dao.FriendsDao;
+import ua.com.social.dao.GroupsDao;
 import ua.com.social.dao.UserDao;
 import ua.com.social.entity.Friends;
+import ua.com.social.entity.Groups;
 import ua.com.social.entity.Role;
 import ua.com.social.entity.User;
 import ua.com.social.service.UserService;
@@ -21,6 +23,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	private UserDao userDao;
 	@Autowired
 	private FriendsDao friendsDao;
+	@Autowired
+	private GroupsDao groupsDao;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
@@ -90,6 +94,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		User user2 = userDao.findMemberFriends(id);
 		user2.getFriends().removeIf(s -> s.getId() == myId);
 		userDao.save(user2);
+	}
+
+	@Override
+	public User findMemberGroups(int id) {
+		return userDao.findMemberGroups(id);
+	}
+
+	@Override
+	public void exitFromGroup(User user, Groups group, int id) {
+		int myId = user.getId();
+		user = userDao.findMemberGroups(myId);
+		user.getGroups().removeIf(s->s.getId()==id);
+		userDao.save(user);
+		group = groupsDao.findMemberInGroup(id);
+		group.getUsers().removeIf(s->s.getId()==myId);
+		groupsDao.save(group);
+		
+	}
+
+	@Override
+	public void followGroup(User user, Groups group, int id) {
+		int myId = user.getId();
+		user = userDao.findMemberGroups(myId);
+		group = groupsDao.findOne(id);
+		user.getGroups().add(group);
+		userDao.save(user);
+		group = groupsDao.findMemberInGroup(id);
+		group.getUsers().add(user);
+		groupsDao.save(group);
 	}
 
 }

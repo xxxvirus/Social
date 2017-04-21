@@ -31,7 +31,7 @@
 	margin-top:10px;
 }
 </style>	
-	<div class="col-md-12 view">
+<div class="col-md-12 view">
 	<div class="col-md-2">
 		<div class="col-md-12 blockNavigation">
 			<div class="row blockNavigationRow">
@@ -59,25 +59,18 @@
 		</div>
 	</div>
 	<div class="col-md-10">
-		<c:forEach items="${friends.users}" var="user">
+		<c:forEach items="${userGroups.groups}" var="group">
 			<div class="row block">
-				<div class="col-md-8">
-					<a href="/member/${user.id}">${user.name} ${user.surname}</a>
-				</div>
-				<div class="col-md-2">
-					<a href="/member/${user.id}"><button type="button" class="btn btn-primary btn-xs">Send message</button></a>
+				<div class="col-md-11">
+					<a href="/group/${group.id}">${group.nameOfG}</a>
 				</div>
 				<sec:authentication property="principal.id" var="userId"/>
 				<c:if test="${userId == userPage.id}">
 				<div class="col-md-1">
-					<a href="/member/${userId}/friends/confirm/${user.id}"><button type="button" class="btn btn-warning btn-xs">Confirm</button></a>
-				</div>
-				<div class="col-md-1">
-					<a href="/member/${userId}/friends/delete/${user.id}"><button type="button" class="btn btn-danger btn-xs">Remove</button></a>
+					<a href="/member/${userId}/mygroups/exit/${group.id}"><button type="button" class="btn btn-danger btn-xs">Exit</button></a>
 				</div>
 				</c:if>
 			</div>
 		</c:forEach>
 	</div>
 </div>
-	
