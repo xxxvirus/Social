@@ -80,11 +80,11 @@ public class IndexController {
 	
 	@GetMapping(value="/decrypt/dec")
 	public String decryptM(Model model, @RequestParam("key") String key, @RequestParam("value") String value){
-		String dec = aes.decrypt(key, value);
-		return decrypt(model, dec);
+		String resultText = aes.decrypt(key, value);
+		return decrypt(model, resultText);
 	}
 	
-	@GetMapping(value="/encrypt//enc")
+	@GetMapping(value="/encrypt/enc")
 	public String encryptM(Model model, @RequestParam("key") String key, @RequestParam("value") String value){
 		String resultText = aes.encrypt(key, value);
 		return encrypt(model, resultText);
