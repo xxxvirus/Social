@@ -13,15 +13,15 @@
 	<div class="row">
 	<div class="col-md-3 col-md-offset-5">
 	<ul class="nav nav-pills">
-            <li><a href="/encrypt">Encrypt</a></li>
-            <li  class="active"><a href="/decrypt">Decrypt</a></li>
+            <li class="active"><a href="/encrypt">Encrypt</a></li>
+            <li><a href="/decrypt">Decrypt</a></li>
     </ul>
     </div>
     </div>
 	<div class="col-md-2"></div>
 	<div class="col-md-8">
 	<div class="row"><h3 class="text-center">Enter Key</h3></div>
-	<form class="form-horizontal" action="/decrypt/dec" method="GET">
+	<form class="form-horizontal" action="/encrypt/enc" method="GET">
 		<div class="form-group">
     		<div class="col-sm-12">
 				<input type="text" name="key" class="form-control"/>
@@ -37,10 +37,10 @@
     			</div>
     		</div>
     		<div class="col-sm-2">
-				<button type="submit" class="btn btn-success btn-xs btn-block">Decrypt</button>
+				<button type="submit" class="btn btn-success btn-xs btn-block">Encrypt</button>
 			</div>
 			<div class="col-sm-5 leftText">
-			<div class="row">
+				<div class="row">
     			<h4 class="text-center">Result Text</h4>
     			</div>
     			<div class="row">

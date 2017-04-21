@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import ua.com.social.algoritm.AES;
 import ua.com.social.entity.User;
 import ua.com.social.service.PostService;
 import ua.com.social.service.UserService;
@@ -29,6 +31,7 @@ public class IndexController {
 	private UserService userService;
 	@Autowired
 	private PostService postService;
+	private AES aes = new AES();
 	
 	@GetMapping
 	public String index(Principal principal, Model model){
@@ -61,6 +64,30 @@ public class IndexController {
 	@GetMapping("/login")
 	public String login(){
 		return "user-login";
+	}
+	
+	@RequestMapping("/decrypt")
+	public String decrypt(Model model, String resultText){
+		model.addAttribute("text", resultText);
+		return "user-decrypt";
+	}
+	
+	@RequestMapping("/encrypt")
+	public String encrypt(Model model, String resultText){
+		model.addAttribute("text", resultText);
+		return "user-encrypt";
+	}
+	
+	@GetMapping(value="/decrypt/dec")
+	public String decryptM(Model model, @RequestParam("key") String key, @RequestParam("value") String value){
+		String dec = aes.decrypt(key, value);
+		return decrypt(model, dec);
+	}
+	
+	@GetMapping(value="/encrypt//enc")
+	public String encryptM(Model model, @RequestParam("key") String key, @RequestParam("value") String value){
+		String resultText = aes.encrypt(key, value);
+		return encrypt(model, resultText);
 	}
 	
 }

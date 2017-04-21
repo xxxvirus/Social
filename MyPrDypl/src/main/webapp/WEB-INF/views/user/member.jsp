@@ -37,7 +37,7 @@
 	margin-top:-15px;
 }
 .blockInfo{
-	width: 665px;
+	width: 660px;
 	height:252px;
 	border-radius: 2px;
 	position: relative;
@@ -52,7 +52,7 @@
 }
 .post{
 	background: #fff;
-	width: 845px;
+	width: 855px;
 	margin-top:15px;
 }
 .postText{
@@ -81,6 +81,9 @@
 			<div class="row blockNavigationRow">
 				<a href="">My groups</a>
 			</div>
+			<div class="row blockNavigationRow">
+					<a href="/decrypt">AES Encryptor</a>
+				</div>
 		</div>
 		<div class="row buttonsRow">
 			<sec:authorize access="isAuthenticated()">
@@ -127,7 +130,7 @@
 					<form:form class="form-horizontal" action="/member/${users.id}" method="POST" modelAttribute="post">
 						<div class="form-group">
     					<div class="col-sm-10">
-      						<form:textarea path="text" rows="2" cols="117" />
+      						<form:textarea class="form-control" path="text" rows="3"/>
     					</div>
     					</div>
     					<div class="form-group">
