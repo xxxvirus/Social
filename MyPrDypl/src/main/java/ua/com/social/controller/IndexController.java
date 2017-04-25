@@ -1,6 +1,9 @@
 package ua.com.social.controller;
 
+import java.security.KeyPair;
 import java.security.Principal;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 import javax.validation.Valid;
 
@@ -18,8 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ua.com.social.algoritm.AES;
+import ua.com.social.algoritm.RSA;
+import ua.com.social.entity.Groups;
+import ua.com.social.entity.RSAKeys;
 import ua.com.social.entity.User;
+import ua.com.social.service.GroupsService;
 import ua.com.social.service.PostService;
+import ua.com.social.service.RSAKeysService;
 import ua.com.social.service.UserService;
 import ua.com.social.validator.UserValidator;
 
@@ -32,6 +40,15 @@ public class IndexController {
 	@Autowired
 	private PostService postService;
 	private AES aes = new AES();
+	@Autowired
+	private GroupsService groupsService;
+	@Autowired
+	private RSAKeysService rsakeyService;
+	
+	@ModelAttribute("group")
+	public Groups getGroups() {
+		return new Groups();
+	}
 	
 	@GetMapping
 	public String index(Principal principal, Model model){
@@ -88,6 +105,26 @@ public class IndexController {
 	public String encryptM(Model model, @RequestParam("key") String key, @RequestParam("value") String value){
 		String resultText = aes.encrypt(key, value);
 		return encrypt(model, resultText);
+	}
+	
+	@RequestMapping("/createGroup")
+	public String creteG(Model model){
+		model.addAttribute("group", new Groups());
+		return "user-createGroup";
+	}
+	
+	@PostMapping("/createGroup")
+	public String saveG(@ModelAttribute("group") Groups group){
+	    groupsService.save(group);
+	    RSAKeys rsa = new RSAKeys();
+		KeyPair pair = RSA.generateKeyPair();
+	    PublicKey pubKey = pair.getPublic();
+	    PrivateKey privKey = pair.getPrivate();
+	    rsa.setPublickKey(pubKey);
+	    rsa.setPrivateKey(privKey);
+	    rsa.setGroups(group);
+	    rsakeyService.save(rsa);
+		return "user-index";
 	}
 	
 }

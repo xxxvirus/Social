@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ua.com.social.algoritm.RSA;
 import ua.com.social.entity.Groups;
 import ua.com.social.entity.Post;
 import ua.com.social.entity.User;
@@ -66,9 +67,20 @@ public class GroupController {
 		post.setUser(user);
 		Groups group = groupsService.findOne(id);
 		post.setGroups(group);
-//		String text = post.getText();
-//		String aesT = aes.encrypt(key, text);
-//		post.setText(aesT);
+		String text = post.getText();
+		String encT = RSA.encrypt(text, group.getKeys().getPublickKey());
+		post.setText(encT);
+		postService.save(post);
+		return "redirect:/group/{id}";
+	}
+	
+	@GetMapping("/dec/{idd}")
+	public String decrypt(Model model, @PathVariable int id, @PathVariable int idd){
+		Groups group = groupsService.findOne(id);
+		Post post = postService.findOne(idd);
+		String text = post.getText();
+		String decText = RSA.decrypt(text, group.getKeys().getPrivateKey());
+		post.setText(decText);
 		postService.save(post);
 		return "redirect:/group/{id}";
 	}

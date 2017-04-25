@@ -115,7 +115,10 @@
 				<c:forEach items="${posts}" var="post">
 					<div class="row post">
 						<div class="col-md-12"><p>Author: <a href="/member/${post.user.id}">${post.user.name} ${post.user.surname}</a></p></div>
-						<div class="col-md-11 postText"><p>${post.text}</p></div>
+						<div class="col-md-10 postText"><p>${post.text}</p></div>
+						<div class="col-md-1 postButton">
+							<a class="btn btn-danger btn-xs" href="/group/${groupName.id}/dec/${post.id}">dec</a>
+						</div>
 						<sec:authentication property="principal.id" var="userId"/>
 						<c:if test="${userId == post.user.id}">
 						<div class="col-md-1 postButton">

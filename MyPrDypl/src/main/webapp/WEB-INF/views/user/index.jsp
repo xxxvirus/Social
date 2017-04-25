@@ -58,7 +58,7 @@
 					<a href="">My messages</a>
 				</div>
 				<div class="row blockNavigationRow">
-					<a href="">My groups</a>
+					<a href="/member/<sec:authentication property="principal.id" />/mygroups">My groups</a>
 				</div>
 				<div class="row blockNavigationRow">
 					<a href="/decrypt">AES Encryptor</a>

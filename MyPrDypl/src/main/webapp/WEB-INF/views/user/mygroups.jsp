@@ -59,6 +59,7 @@
 		</div>
 	</div>
 	<div class="col-md-10">
+		<div class="row"><a href="/createGroup"><button type="button" class="btn btn-danger btn-xs">Create Group</button></a></div>
 		<c:forEach items="${userGroups.groups}" var="group">
 			<div class="row block">
 				<div class="col-md-11">

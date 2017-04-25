@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Groups {
@@ -25,6 +26,8 @@ public class Groups {
 
 	@OneToMany(mappedBy = "groups")
 	private List<Post> posts = new ArrayList<>();
+	@OneToOne(mappedBy = "groups")
+	private RSAKeys keys;
 
 	public Groups() {
 	}
@@ -67,6 +70,14 @@ public class Groups {
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+
+	public RSAKeys getKeys() {
+		return keys;
+	}
+
+	public void setKeys(RSAKeys keys) {
+		this.keys = keys;
 	}
 
 	@Override
