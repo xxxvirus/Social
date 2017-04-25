@@ -11,4 +11,6 @@ public interface PostDao extends JpaRepository<Post, Integer>{
 
 	@Query("select p from Post p where p.user.id=?1 ORDER BY p.id DESC")
 	List<Post> findByUserId(int id);
+	@Query("select p from Post p where p.groups.id=?1 ORDER BY p.id DESC")
+	List<Post> findByGroupId(int id);
 }

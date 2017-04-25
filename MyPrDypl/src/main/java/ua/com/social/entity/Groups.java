@@ -1,5 +1,6 @@
 package ua.com.social.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Groups {
@@ -21,8 +23,9 @@ public class Groups {
 	@ManyToMany(mappedBy = "groups")
 	private List<User> users;
 
-	// @OneToMany(mappedBy = "groups")
-	// private List<Post> posts = new ArrayList<>();
+	@OneToMany(mappedBy = "groups")
+	private List<Post> posts = new ArrayList<>();
+
 	public Groups() {
 	}
 
@@ -56,6 +59,14 @@ public class Groups {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 	@Override

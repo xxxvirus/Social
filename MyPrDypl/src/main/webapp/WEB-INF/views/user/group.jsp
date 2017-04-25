@@ -34,7 +34,7 @@
 	margin-top:-15px;
 }
 .blockInfo{
-	width: 660px;
+	width: 825px;
 	height:180px;
 	border-radius: 2px;
 	position: relative;
@@ -48,14 +48,13 @@
 }
 .blockMembers{
 	background: #fff;
-	margin-left: 15px;
 }
 .blockMemebrs-userName{
 	margin-left: 5px;
 }
 .post{
 	background: #fff;
-	width: 855px;
+	width: 825px;
 	margin-top:15px;
 }
 .postText{
@@ -82,17 +81,51 @@
 				<a href="">My messages</a>
 			</div>
 			<div class="row blockNavigationRow">
-				<a href="">My groups</a>
+				<a href="/member/<sec:authentication property="principal.id" />/mygroups">My groups</a>
 			</div>
 			<div class="row blockNavigationRow">
 				<a href="/decrypt">AES Encryptor</a>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-8 blockInfo">
-		<div class="row info"><h2>${groupName.nameOfG}</h2></div>
-		<hr>
-		<div class="row"><p>${groupName.aboutG}</p></div>
+	<div class="col-md-8">
+		<div class="row blockInfo">
+		<div class="col-md-12">
+			<div class="row info"><h2>${groupName.nameOfG}</h2></div>
+			<hr>
+			<div class="row"><p>${groupName.aboutG}</p></div>
+		</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row addPost">
+					<form:form class="form-horizontal" action="/group/${groupName.id}" method="POST" modelAttribute="post">
+						<div class="form-group">
+    					<div class="col-sm-12">
+      						<form:textarea class="form-control" path="text" rows="3"/>
+    					</div>
+    					</div>
+    					<div class="form-group">
+    					<div class="col-sm-2">
+      						<button type="submit" class="btn btn-success btn-block">Add Post</button>
+    					</div>
+    					</div>
+					</form:form>
+				</div>
+				<c:forEach items="${posts}" var="post">
+					<div class="row post">
+						<div class="col-md-12"><p>Author: <a href="/member/${post.user.id}">${post.user.name} ${post.user.surname}</a></p></div>
+						<div class="col-md-11 postText"><p>${post.text}</p></div>
+						<sec:authentication property="principal.id" var="userId"/>
+						<c:if test="${userId == post.user.id}">
+						<div class="col-md-1 postButton">
+							<a class="btn btn-danger btn-xs" href="/group/${groupName.id}/delete/${post.id}">delete</a>
+						</div>
+						</c:if>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
 	</div>
 	<div class="col-md-2 blockMembers">
 		<div class="row">
@@ -106,6 +139,7 @@
 			<div class="row blockMemebrs-userName"><a href="/member/${user.id}">${user.name} ${user.surname}</a></div>
 		</c:forEach>
 	</div>
+
 </div>
 	
 	

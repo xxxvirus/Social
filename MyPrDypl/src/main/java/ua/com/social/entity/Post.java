@@ -15,10 +15,12 @@ public class Post {
 	private int id;
 	@Lob
 	private String text;
-//	private boolean encrypted = true;
-//	private String passPost;
+	// private boolean encrypted = true;
+	// private String passPost;
 	@ManyToOne
 	private User user;
+	@ManyToOne
+	private Groups groups;
 
 	public Post() {
 	}
@@ -47,20 +49,28 @@ public class Post {
 		this.user = user;
 	}
 
-//	public boolean getEncrypted() {
-//		return encrypted;
-//	}
-//
-//	public void setEncrypted(boolean encrypted) {
-//		this.encrypted = encrypted;
-//	}
+	public Groups getGroups() {
+		return groups;
+	}
 
-//	public String getPassPost() {
-//		return passPost;
-//	}
-//
-//	public void setPassPost(String passPost) {
-//		this.passPost = passPost;
-//	}
+	public void setGroups(Groups groups) {
+		this.groups = groups;
+	}
+
+	// public boolean getEncrypted() {
+	// return encrypted;
+	// }
+	//
+	// public void setEncrypted(boolean encrypted) {
+	// this.encrypted = encrypted;
+	// }
+
+	// public String getPassPost() {
+	// return passPost;
+	// }
+	//
+	// public void setPassPost(String passPost) {
+	// this.passPost = passPost;
+	// }
 
 }

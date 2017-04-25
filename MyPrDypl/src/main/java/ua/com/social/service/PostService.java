@@ -12,4 +12,5 @@ public interface PostService {
 	void delete(int id);
 	
 	List<Post> findByUserId(int id);
+	List<Post> findByGroupId(int id);
 }

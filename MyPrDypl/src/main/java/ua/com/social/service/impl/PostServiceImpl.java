@@ -43,4 +43,9 @@ public class PostServiceImpl implements PostService{
 		return postDao.findByUserId(id);
 	}
 
+	@Override
+	public List<Post> findByGroupId(int id) {
+		return postDao.findByGroupId(id);
+	}
+
 }
