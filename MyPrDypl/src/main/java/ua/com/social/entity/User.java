@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -48,6 +49,8 @@ public class User implements UserDetails {
 	private Role role;
 	@OneToMany(mappedBy = "user")
 	private List<Post> posts = new ArrayList<>();
+	@OneToOne(mappedBy = "user")
+	private RSAKeysUser keys;
 
 	public int getId() {
 		return id;
@@ -143,6 +146,14 @@ public class User implements UserDetails {
 
 	public void setGroups(List<Groups> groups) {
 		this.groups = groups;
+	}
+
+	public RSAKeysUser getKeys() {
+		return keys;
+	}
+
+	public void setKeys(RSAKeysUser keys) {
+		this.keys = keys;
 	}
 
 	@Override

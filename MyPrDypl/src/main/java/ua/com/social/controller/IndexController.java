@@ -24,10 +24,12 @@ import ua.com.social.algoritm.AES;
 import ua.com.social.algoritm.RSA;
 import ua.com.social.entity.Groups;
 import ua.com.social.entity.RSAKeys;
+import ua.com.social.entity.RSAKeysUser;
 import ua.com.social.entity.User;
 import ua.com.social.service.GroupsService;
 import ua.com.social.service.PostService;
 import ua.com.social.service.RSAKeysService;
+import ua.com.social.service.RSAKeysUserService;
 import ua.com.social.service.UserService;
 import ua.com.social.validator.UserValidator;
 
@@ -44,6 +46,8 @@ public class IndexController {
 	private GroupsService groupsService;
 	@Autowired
 	private RSAKeysService rsakeyService;
+	@Autowired
+	private RSAKeysUserService keyService;
 	
 	@ModelAttribute("group")
 	public Groups getGroups() {
@@ -75,6 +79,14 @@ public class IndexController {
 		if (br.hasErrors())
 			return "user-registration";
 		userService.save(user);
+		RSAKeysUser rsa = new RSAKeysUser();
+		KeyPair pair = RSA.generateKeyPair();
+	    PublicKey pubKey = pair.getPublic();
+	    PrivateKey privKey = pair.getPrivate();
+	    rsa.setPublickKey(pubKey);
+	    rsa.setPrivateKey(privKey);
+	    rsa.setUser(user);
+	    keyService.save(rsa);
 		return "redirect:/login";
 	}
 	

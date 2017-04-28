@@ -104,7 +104,7 @@
 					<a class="btn btn-success btn-xs btn-block" href="/member/${users.id}/addToFriend">Add</a>
 					</c:if>
 					<c:if test="${isFriend==true}">
-					<a class="btn btn-danger btn-xs btn-block" href="/member/${users.id}/addToFriend">Delete</a>
+					<a class="btn btn-danger btn-xs btn-block" href="/member/${users.id}/delete">Delete</a>
 					</c:if>
 					</c:if>
 				</div>
@@ -134,11 +134,6 @@
     					</div>
     					</div>
     					<div class="form-group">
-    					<div class="col-sm-10">
-      						<input name="key" class="form-control"/>
-    					</div>
-    					</div>
-    					<div class="form-group">
     					<div class="col-sm-2">
       						<button type="submit" class="btn btn-success btn-block">Add Post</button>
     					</div>
@@ -146,13 +141,26 @@
 					</form:form>
 				</div>
 				</c:if>
+				<c:if test="${decText != null}">
+					<div class="row post">
+						<div class="col-md-12 postText"><p>${decText}</p></div>
+					</div>
+				</c:if>
 				<c:forEach items="${posts}" var="post">
 					<div class="row post">
-						<div class="col-md-11 postText"><p>${post.text}</p></div>
+						<div class="col-md-10 postText"><p>${post.text}</p></div>
 						<sec:authentication property="principal.id" var="userId"/>
 						<c:if test="${userId == users.id}">
 						<div class="col-md-1 postButton">
+							<a class="btn btn-danger btn-xs" href="/member/${users.id}/dec/${post.id}">dec</a>
+						</div>
+						<div class="col-md-1 postButton">
 							<a class="btn btn-danger btn-xs" href="/member/${users.id}/delete/${post.id}">delete</a>
+						</div>
+						</c:if>
+						<c:if test="${isFriend==true}">
+						<div class="col-md-2 postButton">
+							<a class="btn btn-danger btn-xs" href="/member/${users.id}/dec/${post.id}">dec</a>
 						</div>
 						</c:if>
 					</div>
