@@ -45,7 +45,7 @@ public class MemberController {
 	public String user(Model model, @PathVariable int id){
 		model.addAttribute("users", userService.findOne(id));
 		model.addAttribute("posts", postService.findByUserId(id));
-		model.addAttribute("friends", userService.findMemberFriends(id));
+		model.addAttribute("isFriend", userService.isAfriend(id));
 		return "user-member";
 	}
 	

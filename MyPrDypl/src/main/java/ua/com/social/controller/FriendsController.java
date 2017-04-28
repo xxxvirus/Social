@@ -35,7 +35,7 @@ public class FriendsController {
 	}
 
 	@GetMapping("/confirm/{idd}")
-	private String addToFriend(@ModelAttribute("friend") Friends friend,
+	private String addToFriend(Model model, @ModelAttribute("friend") Friends friend,
 			@PathVariable int idd) {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();

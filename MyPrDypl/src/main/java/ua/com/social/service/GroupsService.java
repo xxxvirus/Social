@@ -8,5 +8,6 @@ public interface GroupsService {
 	void save(Groups groups);
 	
 	Groups findMemberInGroup(int id);
+	boolean memberAtGroup(int id);
 	
 }

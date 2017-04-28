@@ -15,6 +15,7 @@ public interface UserService {
 	User findMemberFriends(int id);
 	void addFriend(User user, Friends friend, int id);
 	void removeFriend(User user, Friends friend, int id);
+	boolean isAfriend(int id);
 	
 	User findMemberGroups(int id);
 	void followGroup(User user, Groups group, int id);

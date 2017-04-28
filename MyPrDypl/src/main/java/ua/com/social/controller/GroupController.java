@@ -35,10 +35,12 @@ public class GroupController {
 	}
 	
 	@GetMapping
-	private String group(Model model, @PathVariable int id){
+	private String group(Model model, @PathVariable int id, String decText){
 		model.addAttribute("groupName", groupsService.findOne(id));
 		model.addAttribute("group", groupsService.findMemberInGroup(id));
 		model.addAttribute("posts", postService.findByGroupId(id));
+		model.addAttribute("isAtGroup", groupsService.memberAtGroup(id));
+		model.addAttribute("decText", decText);
 		return "user-group";
 	}
 	
@@ -80,9 +82,7 @@ public class GroupController {
 		Post post = postService.findOne(idd);
 		String text = post.getText();
 		String decText = RSA.decrypt(text, group.getKeys().getPrivateKey());
-		post.setText(decText);
-		postService.save(post);
-		return "redirect:/group/{id}";
+		return group(model, id, decText);
 	}
 	
 	@GetMapping("/delete/{idd}")

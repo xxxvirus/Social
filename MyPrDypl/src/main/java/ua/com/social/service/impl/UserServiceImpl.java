@@ -1,6 +1,9 @@
 package ua.com.social.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -123,6 +126,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		group = groupsDao.findMemberInGroup(id);
 		group.getUsers().add(user);
 		groupsDao.save(group);
+	}
+
+	@Override
+	public boolean isAfriend(int id) {
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		int userId = user.getId();
+		User friend = userDao.findMemberFriends(id);
+		List<Friends> list = friend.getFriends();
+		for (Friends friends : list) {
+			if(friends.getId()==userId){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

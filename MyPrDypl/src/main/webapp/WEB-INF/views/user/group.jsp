@@ -98,6 +98,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
+				<c:if test="${isAtGroup==true}">
 				<div class="row addPost">
 					<form:form class="form-horizontal" action="/group/${groupName.id}" method="POST" modelAttribute="post">
 						<div class="form-group">
@@ -112,10 +113,17 @@
     					</div>
 					</form:form>
 				</div>
+				</c:if>
+				<c:if test="${decText != null}">
+					<div class="row post">
+						<div class="col-md-12 postText"><p>${decText}</p></div>
+					</div>
+				</c:if>
 				<c:forEach items="${posts}" var="post">
 					<div class="row post">
 						<div class="col-md-12"><p>Author: <a href="/member/${post.user.id}">${post.user.name} ${post.user.surname}</a></p></div>
 						<div class="col-md-10 postText"><p>${post.text}</p></div>
+						<c:if test="${isAtGroup==true}">
 						<div class="col-md-1 postButton">
 							<a class="btn btn-danger btn-xs" href="/group/${groupName.id}/dec/${post.id}">dec</a>
 						</div>
@@ -125,18 +133,23 @@
 							<a class="btn btn-danger btn-xs" href="/group/${groupName.id}/delete/${post.id}">delete</a>
 						</div>
 						</c:if>
+						</c:if>
 					</div>
 				</c:forEach>
 			</div>
 		</div>
 	</div>
 	<div class="col-md-2 blockMembers">
+		<c:if test="${isAtGroup!=true}">
 		<div class="row">
 			<a class="btn btn-success btn btn-block" href="/group/${groupName.id}/follow">Follow</a>
 		</div>
+		</c:if>
+		<c:if test="${isAtGroup==true}">
 		<div class="row">
 			<a class="btn btn-danger btn btn-block" href="/group/${groupName.id}/exit">Exit</a>
 		</div>
+		</c:if>
 		<div class="row"><h2>Members</h2></div>
 		<c:forEach items="${group.users}" var="user">
 			<div class="row blockMemebrs-userName"><a href="/member/${user.id}">${user.name} ${user.surname}</a></div>

@@ -100,10 +100,10 @@
 				<div class="row blockButton">
 					<sec:authentication property="principal.id" var="userId"/>
 					<c:if test="${userId != users.id}">
-					<c:if test="${friends.id != userId }">
+					<c:if test="${isFriend!=true}">
 					<a class="btn btn-success btn-xs btn-block" href="/member/${users.id}/addToFriend">Add</a>
 					</c:if>
-					<c:if test="${friends.id == userId }">
+					<c:if test="${isFriend==true}">
 					<a class="btn btn-danger btn-xs btn-block" href="/member/${users.id}/addToFriend">Delete</a>
 					</c:if>
 					</c:if>
