@@ -1,5 +1,7 @@
 package ua.com.social.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +17,7 @@ public class Post {
 	private int id;
 	@Lob
 	private String text;
+	private Date date = new Date();
 	// private boolean encrypted = true;
 	// private String passPost;
 	@ManyToOne
@@ -55,6 +58,14 @@ public class Post {
 
 	public void setGroups(Groups groups) {
 		this.groups = groups;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	// public boolean getEncrypted() {

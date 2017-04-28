@@ -46,6 +46,10 @@
 .infoRow{
 	color: #828282;
 }
+.infoRowDate{
+	color: #828282;
+	margin-left:30px;
+}
 .blockMembers{
 	background: #fff;
 }
@@ -121,7 +125,8 @@
 				</c:if>
 				<c:forEach items="${posts}" var="post">
 					<div class="row post">
-						<div class="col-md-12"><p>Author: <a href="/member/${post.user.id}">${post.user.name} ${post.user.surname}</a></p></div>
+						<div class="col-md-9"><p>Author: <a href="/member/${post.user.id}">${post.user.name} ${post.user.surname}</a></p></div>
+						<div class="col-md-3"><p class="infoRowDate">${post.date}</p></div>
 						<div class="col-md-10 postText"><p>${post.text}</p></div>
 						<c:if test="${isAtGroup==true}">
 						<div class="col-md-1 postButton">

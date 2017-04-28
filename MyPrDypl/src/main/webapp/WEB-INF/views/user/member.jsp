@@ -50,6 +50,10 @@
 .infoRow{
 	color: #828282;
 }
+.infoRowDate{
+	color: #828282;
+	margin-left:37px;
+}
 .post{
 	background: #fff;
 	width: 855px;
@@ -147,7 +151,9 @@
 					</div>
 				</c:if>
 				<c:forEach items="${posts}" var="post">
+				<c:if test="${post.groups.id==null}">
 					<div class="row post">
+						<div class="col-md-3 col-md-offset-9"><p class="infoRowDate">${post.date}</p></div>
 						<div class="col-md-10 postText"><p>${post.text}</p></div>
 						<sec:authentication property="principal.id" var="userId"/>
 						<c:if test="${userId == users.id}">
@@ -164,6 +170,7 @@
 						</div>
 						</c:if>
 					</div>
+				</c:if>
 				</c:forEach>
 			</div>
 			
