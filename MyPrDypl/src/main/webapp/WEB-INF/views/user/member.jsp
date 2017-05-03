@@ -63,6 +63,11 @@
 	padding:5px;
 	word-wrap:break-word;
 }
+.postTextD{
+	border: 4px inset #FF7F50;
+	padding:5px;
+	word-wrap:break-word;
+}
 .postButton{
 	margin-top:5px;
 }
@@ -146,9 +151,19 @@
 				</div>
 				</c:if>
 				<c:if test="${decText != null}">
+				<sec:authentication property="principal.id" var="userId"/>
+				<c:if test="${userId == users.id}">
 					<div class="row post">
-						<div class="col-md-12 postText"><p>${decText}</p></div>
+						<div class="col-md-12 postTextD"><p>${decText}</p></div>
 					</div>
+				</c:if>
+				</c:if>
+				<c:if test="${decText != null}">
+				<c:if test="${isFriend==true}">
+					<div class="row post">
+						<div class="col-md-12 postTextD"><p>${decText}</p></div>
+					</div>
+				</c:if>
 				</c:if>
 				<c:forEach items="${posts}" var="post">
 				<c:if test="${post.groups.id==null}">

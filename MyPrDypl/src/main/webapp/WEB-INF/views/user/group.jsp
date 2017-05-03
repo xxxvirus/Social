@@ -65,6 +65,11 @@
 	padding:5px;
 	word-wrap:break-word;
 }
+.postTextD{
+	border: 4px inset #FF7F50;
+	padding:5px;
+	word-wrap:break-word;
+}
 .postButton{
 	margin-top:5px;
 }
@@ -119,9 +124,11 @@
 				</div>
 				</c:if>
 				<c:if test="${decText != null}">
+				<c:if test="${isAtGroup==true}">
 					<div class="row post">
-						<div class="col-md-12 postText"><p>${decText}</p></div>
+						<div class="col-md-12 postTextD"><p>${decText}</p></div>
 					</div>
+				</c:if>
 				</c:if>
 				<c:forEach items="${posts}" var="post">
 					<div class="row post">
