@@ -108,12 +108,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public void exitFromGroup(User user, Groups group, int id) {
 		int myId = user.getId();
 		user = userDao.findMemberGroups(myId);
-		user.getGroups().removeIf(s->s.getId()==id);
+		user.getGroups().removeIf(s -> s.getId() == id);
 		userDao.save(user);
 		group = groupsDao.findMemberInGroup(id);
-		group.getUsers().removeIf(s->s.getId()==myId);
+		group.getUsers().removeIf(s -> s.getId() == myId);
 		groupsDao.save(group);
-		
+
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		User friend = userDao.findMemberFriends(id);
 		List<Friends> list = friend.getFriends();
 		for (Friends friends : list) {
-			if(friends.getId()==userId){
+			if (friends.getId() == userId) {
 				return true;
 			}
 		}

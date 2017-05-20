@@ -69,9 +69,11 @@
 				</div>
 				<sec:authentication property="principal.id" var="userId"/>
 				<c:if test="${userId == userPage.id}">
+				<c:if test="${isFriend!=true}">
 				<div class="col-md-1">
 					<a href="/member/${userId}/friends/confirm/${user.id}"><button type="button" class="btn btn-warning btn-xs">Confirm</button></a>
 				</div>
+				</c:if>
 				<div class="col-md-1">
 					<a href="/member/${userId}/friends/delete/${user.id}"><button type="button" class="btn btn-danger btn-xs">Remove</button></a>
 				</div>

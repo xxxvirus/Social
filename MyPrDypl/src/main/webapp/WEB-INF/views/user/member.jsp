@@ -109,8 +109,11 @@
 				<div class="row blockButton">
 					<sec:authentication property="principal.id" var="userId"/>
 					<c:if test="${userId != users.id}">
-					<c:if test="${isFriend!=true}">
+					<c:if test="${isFriend!=true && isFriendConf==false}">
 					<a class="btn btn-success btn-xs btn-block" href="/member/${users.id}/addToFriend">Add</a>
+					</c:if>
+					<c:if test="${isFriend!=true && isFriendConf==true && isFriendConfrim!=true}">
+					<a class="btn btn-warning btn-xs btn-block">Already requested</a>
 					</c:if>
 					<c:if test="${isFriend==true}">
 					<a class="btn btn-danger btn-xs btn-block" href="/member/${users.id}/delete">Delete</a>

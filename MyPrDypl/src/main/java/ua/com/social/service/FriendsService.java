@@ -9,7 +9,9 @@ public interface FriendsService {
 	void save(Friends friends);
 	List<Friends> findAll();
 	Friends findOne(int id);
-	
+
 	Friends findMemberFriends(int id);
-	
+	boolean isMyFriend(int id);
+	boolean isMyFriendConf(int id);
+
 }
