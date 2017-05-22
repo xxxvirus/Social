@@ -7,7 +7,7 @@ import ua.com.social.entity.User;
 public interface UserService {
 
 	void save(User user);
-
+	void update(User user);
 	User findByEmail(String email);
 
 	User findOne(int id);

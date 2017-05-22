@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.social.algoritm.AES;
 import ua.com.social.algoritm.RSA;
 import ua.com.social.entity.Groups;
+import ua.com.social.entity.KeyAES;
 import ua.com.social.entity.RSAKeys;
 import ua.com.social.entity.RSAKeysUser;
 import ua.com.social.entity.User;
 import ua.com.social.service.GroupsService;
+import ua.com.social.service.KeyAESService;
 import ua.com.social.service.PostService;
 import ua.com.social.service.RSAKeysService;
 import ua.com.social.service.RSAKeysUserService;
@@ -48,6 +50,8 @@ public class IndexController {
 	private RSAKeysService rsakeyService;
 	@Autowired
 	private RSAKeysUserService keyService;
+	@Autowired
+	private KeyAESService aesService;
 	
 	@ModelAttribute("group")
 	public Groups getGroups() {
@@ -87,6 +91,17 @@ public class IndexController {
 	    rsa.setPrivateKey(privKey);
 	    rsa.setUser(user);
 	    keyService.save(rsa);
+	    KeyAES aesK = new KeyAES();
+	    String key = aes.keyGenerator();
+	    aesK.setGenKey(RSA.encrypt(key, pubKey));
+	    aesK.setUser(user);
+	    aesService.save(aesK);
+	    user.setName(aes.encrypt(key, user.getName()));
+	    user.setSurname(aes.encrypt(key, user.getSurname()));
+	    user.setCountry(aes.encrypt(key, user.getCountry()));
+	    user.setCity(aes.encrypt(key, user.getCity()));
+	    user.setPhoneNumber(aes.encrypt(key, user.getPhoneNumber()));
+	    userService.update(user);
 		return "redirect:/login";
 	}
 	

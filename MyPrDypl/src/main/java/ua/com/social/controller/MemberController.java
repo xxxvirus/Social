@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ua.com.social.algoritm.AES;
 import ua.com.social.algoritm.RSA;
 import ua.com.social.entity.Friends;
 import ua.com.social.entity.Post;
@@ -28,6 +29,7 @@ public class MemberController {
 	private FriendsService friendsService;
 	@Autowired
 	private PostService postService;
+	private AES aes = new AES();
 
 	@ModelAttribute("post")
 	public Post getPost() {
@@ -44,9 +46,32 @@ public class MemberController {
 		model.addAttribute("users", userService.findOne(id));
 		model.addAttribute("posts", postService.findByUserId(id));
 		model.addAttribute("isFriend", userService.isAfriend(id));
-		model.addAttribute("isFriendConfrim", friendsService.isMyFriend(id));
-		model.addAttribute("isFriendConf", friendsService.isMyFriendConf(id));
 		model.addAttribute("decText", decText);
+		model.addAttribute(
+				"name",
+				aes.decrypt(RSA.decrypt(userService.findOne(id).getKeyAes()
+						.getGenKey(), userService.findOne(id).getKeys()
+						.getPrivateKey()), userService.findOne(id).getName()));
+		model.addAttribute(
+				"surname",
+				aes.decrypt(RSA.decrypt(userService.findOne(id).getKeyAes()
+						.getGenKey(), userService.findOne(id).getKeys()
+						.getPrivateKey()), userService.findOne(id).getSurname()));
+		model.addAttribute(
+				"country",
+				aes.decrypt(RSA.decrypt(userService.findOne(id).getKeyAes()
+						.getGenKey(), userService.findOne(id).getKeys()
+						.getPrivateKey()), userService.findOne(id).getCountry()));
+		model.addAttribute(
+				"city",
+				aes.decrypt(RSA.decrypt(userService.findOne(id).getKeyAes()
+						.getGenKey(), userService.findOne(id).getKeys()
+						.getPrivateKey()), userService.findOne(id).getCity()));
+		model.addAttribute(
+				"phoneNumber",
+				aes.decrypt(RSA.decrypt(userService.findOne(id).getKeyAes()
+						.getGenKey(), userService.findOne(id).getKeys()
+						.getPrivateKey()), userService.findOne(id).getPhoneNumber()));
 		return "user-member";
 	}
 

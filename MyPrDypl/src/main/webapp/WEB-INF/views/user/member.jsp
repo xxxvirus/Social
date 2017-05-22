@@ -109,11 +109,8 @@
 				<div class="row blockButton">
 					<sec:authentication property="principal.id" var="userId"/>
 					<c:if test="${userId != users.id}">
-					<c:if test="${isFriend!=true && isFriendConf==false}">
+					<c:if test="${isFriend!=true}">
 					<a class="btn btn-success btn-xs btn-block" href="/member/${users.id}/addToFriend">Add</a>
-					</c:if>
-					<c:if test="${isFriend!=true && isFriendConf==true && isFriendConfrim!=true}">
-					<a class="btn btn-warning btn-xs btn-block">Already requested</a>
 					</c:if>
 					<c:if test="${isFriend==true}">
 					<a class="btn btn-danger btn-xs btn-block" href="/member/${users.id}/delete">Delete</a>
@@ -125,6 +122,17 @@
 				</div>
 			</div>
 			<div class="col-md-8 blockInfo">
+				<sec:authentication property="principal.id" var="userId"/>
+				<c:if test="${userId == users.id || isFriend==true}">
+				<div class="row info"><h2>${name} ${surname}</h2></div>
+				<div class="row">
+					<div class="col-md-3 infoRow">Country:</div> <div class="col-md-9">${country}</div>
+					<div class="col-md-3 infoRow">City:</div> <div class="col-md-9">${city}</div>
+					<div class="col-md-3 infoRow">Email:</div> <div class="col-md-9">${users.email}</div>
+					<div class="col-md-3 infoRow">Phone:</div> <div class="col-md-9">${phoneNumber}</div>
+				</div>
+				</c:if>
+				<c:if test="${userId != users.id && isFriend!=true}">
 				<div class="row info"><h2>${users.name} ${users.surname}</h2></div>
 				<div class="row">
 					<div class="col-md-3 infoRow">Country:</div> <div class="col-md-9">${users.country}</div>
@@ -132,6 +140,7 @@
 					<div class="col-md-3 infoRow">Email:</div> <div class="col-md-9">${users.email}</div>
 					<div class="col-md-3 infoRow">Phone:</div> <div class="col-md-9">${users.phoneNumber}</div>
 				</div>
+				</c:if>
 			</div>
 		</div>
 		<div class="row">

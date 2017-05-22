@@ -31,10 +31,9 @@ public class FriendsController {
 	public String user(Model model, @PathVariable int id) {
 		model.addAttribute("userPage", userService.findOne(id));
 		model.addAttribute("friends", friendsService.findMemberFriends(id));
-		model.addAttribute("isFriend", friendsService.isMyFriend(id));
 		return "user-friends";
 	}
-
+	
 	@GetMapping("/confirm/{idd}")
 	private String addToFriend(Model model, @ModelAttribute("friend") Friends friend,
 			@PathVariable int idd) {

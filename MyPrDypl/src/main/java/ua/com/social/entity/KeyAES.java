@@ -1,8 +1,5 @@
 package ua.com.social.entity;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,20 +9,18 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
 @Entity
-public class RSAKeysUser {
+public class KeyAES {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Lob
-	private PublicKey publickKey;
-	@Lob
-	private PrivateKey privateKey;
+	private String genKey;
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	public RSAKeysUser() {
+	public KeyAES() {
 	}
 
 	public int getId() {
@@ -36,20 +31,12 @@ public class RSAKeysUser {
 		this.id = id;
 	}
 
-	public PublicKey getPublickKey() {
-		return publickKey;
+	public String getGenKey() {
+		return genKey;
 	}
 
-	public void setPublickKey(PublicKey publickKey) {
-		this.publickKey = publickKey;
-	}
-
-	public PrivateKey getPrivateKey() {
-		return privateKey;
-	}
-
-	public void setPrivateKey(PrivateKey privateKey) {
-		this.privateKey = privateKey;
+	public void setGenKey(String genKey) {
+		this.genKey = genKey;
 	}
 
 	public User getUser() {
@@ -76,7 +63,7 @@ public class RSAKeysUser {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RSAKeysUser other = (RSAKeysUser) obj;
+		KeyAES other = (KeyAES) obj;
 		if (id != other.id)
 			return false;
 		return true;

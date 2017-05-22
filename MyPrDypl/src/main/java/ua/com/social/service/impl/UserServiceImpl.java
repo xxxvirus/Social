@@ -143,4 +143,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		return false;
 	}
 
+	@Override
+	public void update(User user) {
+		userDao.saveAndFlush(user);
+	}
+
 }

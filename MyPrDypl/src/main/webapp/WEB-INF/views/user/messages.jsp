@@ -31,7 +31,7 @@
 	margin-top:10px;
 }
 </style>	
-	<div class="col-md-12 view">
+<div class="col-md-12 view">
 	<div class="col-md-2">
 		<div class="col-md-12 blockNavigation">
 			<div class="row blockNavigationRow">
@@ -41,10 +41,10 @@
 				<a href="/member/<sec:authentication property="principal.id" />/friends">My friends</a>
 			</div>
 			<div class="row blockNavigationRow">
-				<a href="">My messages</a>
+				<a href="/member/<sec:authentication property="principal.id" />/messages">My messages</a>
 			</div>
 			<div class="row blockNavigationRow">
-				<a href="/member/<sec:authentication property="principal.id" />/mygroups">My groups</a>
+				<a href="">My groups</a>
 			</div>
 			<div class="row blockNavigationRow">
 				<a href="/decrypt">AES Encryptor</a>
@@ -59,27 +59,13 @@
 		</div>
 	</div>
 	<div class="col-md-10">
-		<c:forEach items="${friends.users}" var="user">
+		<div class="row"><a href="/createDialog"><button type="button" class="btn btn-danger btn-xs">Create Dialog</button></a></div>
+		<c:forEach items="${userMesagesField.field}" var="field">
 			<div class="row block">
-				<div class="col-md-8">
-					<a href="/member/${user.id}">${user.email}</a>
+				<div class="col-md-12">
+					<div class="row">${field.title}</div>
 				</div>
-				<div class="col-md-2">
-					<a href="/member/${user.id}"><button type="button" class="btn btn-primary btn-xs">Send message</button></a>
-				</div>
-				<sec:authentication property="principal.id" var="userId"/>
-				<c:if test="${userId == userPage.id}">
-				<c:if test="${isFriend!=true}">
-				<div class="col-md-1">
-					<a href="/member/${userId}/friends/confirm/${user.id}"><button type="button" class="btn btn-warning btn-xs">Confirm</button></a>
-				</div>
-				</c:if>
-				<div class="col-md-1">
-					<a href="/member/${userId}/friends/delete/${user.id}"><button type="button" class="btn btn-danger btn-xs">Remove</button></a>
-				</div>
-				</c:if>
 			</div>
 		</c:forEach>
 	</div>
 </div>
-	

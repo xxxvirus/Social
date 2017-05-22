@@ -51,6 +51,8 @@ public class User implements UserDetails {
 	private List<Post> posts = new ArrayList<>();
 	@OneToOne(mappedBy = "user")
 	private RSAKeysUser keys;
+	@OneToOne(mappedBy = "user")
+	private KeyAES keyAes;
 
 	public int getId() {
 		return id;
@@ -154,6 +156,14 @@ public class User implements UserDetails {
 
 	public void setKeys(RSAKeysUser keys) {
 		this.keys = keys;
+	}
+
+	public KeyAES getKeyAes() {
+		return keyAes;
+	}
+
+	public void setKeyAes(KeyAES keyAes) {
+		this.keyAes = keyAes;
 	}
 
 	@Override

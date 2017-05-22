@@ -11,7 +11,5 @@ public interface FriendsService {
 	Friends findOne(int id);
 
 	Friends findMemberFriends(int id);
-	boolean isMyFriend(int id);
-	boolean isMyFriendConf(int id);
 
 }
