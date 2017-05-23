@@ -10,9 +10,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import ua.com.social.dao.FollowersDao;
 import ua.com.social.dao.FriendsDao;
 import ua.com.social.dao.GroupsDao;
 import ua.com.social.dao.UserDao;
+import ua.com.social.entity.Followers;
 import ua.com.social.entity.Friends;
 import ua.com.social.entity.Groups;
 import ua.com.social.entity.Role;
@@ -27,6 +29,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Autowired
 	private FriendsDao friendsDao;
 	@Autowired
+	private FollowersDao followersDao;
+	@Autowired
 	private GroupsDao groupsDao;
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -39,6 +43,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		Friends friend = new Friends();
 		friend.setId(user.getId());
 		friendsDao.save(friend);
+		Followers follower = new Followers();
+		follower.setId(user.getId());
+		followersDao.save(follower);
 	}
 
 	@Override
@@ -85,6 +92,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		user = userDao.findMemberFriends(myId);
 		friend = friendsDao.findOne(id);
 		user.getFriends().add(friend);
+		userDao.save(user);
+		User user2 = userDao.findOne(id);
+		user2 = userDao.findMemberFriends(id);
+		friend = friendsDao.findOne(myId);
+		user2.getFriends().add(friend);
+		userDao.save(user2);
+		user = userDao.findMemberFollowers(id);
+		user.getFollowers().removeIf(f -> f.getId() == myId);
 		userDao.save(user);
 	}
 
@@ -146,6 +161,60 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public void update(User user) {
 		userDao.saveAndFlush(user);
+	}
+
+	@Override
+	public void follow(User user, Followers follower, int id) {
+		int myId = user.getId();
+		user = userDao.findMemberFollowers(myId);
+		follower = followersDao.findOne(id);
+		user.getFollowers().add(follower);
+		userDao.save(user);
+	}
+
+	@Override
+	public User findMemberFollowers(int id) {
+		return userDao.findMemberFollowers(id);
+	}
+
+	@Override
+	public boolean isAfollower(int id) {
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		int userId = user.getId();
+		User follower = userDao.findMemberFollowers(id);
+		List<Followers> list = follower.getFollowers();
+		for (Followers followers : list) {
+			if (followers.getId() == userId) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isRequested(int id) {
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		int userId = user.getId();
+		Followers follower = followersDao.findMemberFollowers(id);
+		List<User> list = follower.getUsers();
+		for (User users : list) {
+			if (users.getId() == userId) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void deleteRequest(int id) {
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		int myId = user.getId();
+		user = userDao.findMemberFollowers(myId);
+		user.getFollowers().removeIf(s -> s.getId() == id);
+		userDao.save(user);
 	}
 
 }

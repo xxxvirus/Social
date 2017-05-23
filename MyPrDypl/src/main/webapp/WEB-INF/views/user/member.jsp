@@ -109,11 +109,17 @@
 				<div class="row blockButton">
 					<sec:authentication property="principal.id" var="userId"/>
 					<c:if test="${userId != users.id}">
-					<c:if test="${isFriend!=true}">
-					<a class="btn btn-success btn-xs btn-block" href="/member/${users.id}/addToFriend">Add</a>
+					<c:if test="${isFriend!=true && isFollower==false && isFollowerRequested==false}">
+					<a class="btn btn-success btn-xs btn-block" href="/member/${users.id}/follow">Add to friends</a>
+					</c:if>
+					<c:if test="${isFriend!=true && isFollowerRequested==true}">
+					<a class="btn btn-warning btn-xs btn-block" href="/member/${users.id}/deleteRequest">Delete Requested</a>
+					</c:if>
+					<c:if test="${isFriend!=true && isFollower==true}">
+					<a class="btn btn-warning btn-xs btn-block" href="/member/${users.id}/confirm">Confirm</a>
 					</c:if>
 					<c:if test="${isFriend==true}">
-					<a class="btn btn-danger btn-xs btn-block" href="/member/${users.id}/delete">Delete</a>
+					<a class="btn btn-danger btn-xs btn-block" href="/member/${users.id}/delete">Delete from friends</a>
 					</c:if>
 					</c:if>
 				</div>
@@ -188,7 +194,7 @@
 							<a class="btn btn-danger btn-xs" href="/member/${users.id}/dec/${post.id}">dec</a>
 						</div>
 						<div class="col-md-1 postButton">
-							<a class="btn btn-danger btn-xs" href="/member/${users.id}/delete/${post.id}">delete</a>
+							<a class="btn btn-danger btn-xs" href="/member/${users.id}/deleteP/${post.id}">delete</a>
 						</div>
 						</c:if>
 						<c:if test="${isFriend==true}">

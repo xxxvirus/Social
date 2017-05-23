@@ -14,6 +14,9 @@ public interface UserDao extends JpaRepository<User, Integer>{
 	@Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.friends WHERE "
 			+ "u.id=:id")
 	User findMemberFriends(@Param("id") int id);
+	@Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.followers WHERE "
+			+ "u.id=:id")
+	User findMemberFollowers(@Param("id") int id);
 	
 	@Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.groups WHERE "
 			+ "u.id=:id")

@@ -42,6 +42,9 @@ public class User implements UserDetails {
 	@JoinTable(name = "user_friends", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_friends"))
 	private List<Friends> friends = new ArrayList<>();
 	@ManyToMany
+	@JoinTable(name = "user_followers", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_followers"))
+	private List<Followers> followers = new ArrayList<>();
+	@ManyToMany
 	@JoinTable(name = "user_groups", joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_groups"))
 	private List<Groups> groups = new ArrayList<>();
 	@Enumerated
@@ -148,6 +151,14 @@ public class User implements UserDetails {
 
 	public void setGroups(List<Groups> groups) {
 		this.groups = groups;
+	}
+
+	public List<Followers> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<Followers> followers) {
+		this.followers = followers;
 	}
 
 	public RSAKeysUser getKeys() {

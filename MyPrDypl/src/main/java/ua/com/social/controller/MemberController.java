@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ua.com.social.algoritm.AES;
 import ua.com.social.algoritm.RSA;
+import ua.com.social.entity.Followers;
 import ua.com.social.entity.Friends;
 import ua.com.social.entity.Post;
 import ua.com.social.entity.User;
@@ -41,59 +42,49 @@ public class MemberController {
 		return new Friends();
 	}
 
+	@ModelAttribute("friend")
+	public Followers getFollowers() {
+		return new Followers();
+	}
+
 	@GetMapping
 	public String user(Model model, @PathVariable int id, String decText) {
 		model.addAttribute("users", userService.findOne(id));
 		model.addAttribute("posts", postService.findByUserId(id));
 		model.addAttribute("isFriend", userService.isAfriend(id));
+		model.addAttribute("isFollower", userService.isAfollower(id));
+		model.addAttribute("isFollowerRequested", userService.isRequested(id));
 		model.addAttribute("decText", decText);
 		model.addAttribute(
 				"name",
 				aes.decrypt(RSA.decrypt(userService.findOne(id).getKeyAes()
 						.getGenKey(), userService.findOne(id).getKeys()
 						.getPrivateKey()), userService.findOne(id).getName()));
-		model.addAttribute(
-				"surname",
-				aes.decrypt(RSA.decrypt(userService.findOne(id).getKeyAes()
-						.getGenKey(), userService.findOne(id).getKeys()
-						.getPrivateKey()), userService.findOne(id).getSurname()));
-		model.addAttribute(
-				"country",
-				aes.decrypt(RSA.decrypt(userService.findOne(id).getKeyAes()
-						.getGenKey(), userService.findOne(id).getKeys()
-						.getPrivateKey()), userService.findOne(id).getCountry()));
+		model.addAttribute("surname", aes.decrypt(RSA.decrypt(userService
+				.findOne(id).getKeyAes().getGenKey(), userService.findOne(id)
+				.getKeys().getPrivateKey()), userService.findOne(id)
+				.getSurname()));
+		model.addAttribute("country", aes.decrypt(RSA.decrypt(userService
+				.findOne(id).getKeyAes().getGenKey(), userService.findOne(id)
+				.getKeys().getPrivateKey()), userService.findOne(id)
+				.getCountry()));
 		model.addAttribute(
 				"city",
 				aes.decrypt(RSA.decrypt(userService.findOne(id).getKeyAes()
 						.getGenKey(), userService.findOne(id).getKeys()
 						.getPrivateKey()), userService.findOne(id).getCity()));
-		model.addAttribute(
-				"phoneNumber",
-				aes.decrypt(RSA.decrypt(userService.findOne(id).getKeyAes()
-						.getGenKey(), userService.findOne(id).getKeys()
-						.getPrivateKey()), userService.findOne(id).getPhoneNumber()));
+		model.addAttribute("phoneNumber", aes.decrypt(RSA.decrypt(userService
+				.findOne(id).getKeyAes().getGenKey(), userService.findOne(id)
+				.getKeys().getPrivateKey()), userService.findOne(id)
+				.getPhoneNumber()));
 		return "user-member";
 	}
 
-	@GetMapping("/delete/{idd}")
+	@GetMapping("/deleteP/{idd}")
 	public String delete(@PathVariable int idd) {
 		postService.delete(idd);
 		return "redirect:/member/{id}";
 	}
-
-	// ---AES---
-	//
-	// @PostMapping
-	// public String addPost(@ModelAttribute("post") Post post,
-	// @RequestParam("key") String key, @PathVariable int id){
-	// User user = userService.findOne(id);
-	// post.setUser(user);
-	// String text = post.getText();
-	// String aesT = aes.encrypt(key, text);
-	// post.setText(aesT);
-	// postService.save(post);
-	// return "redirect:/member/{id}";
-	// }
 
 	@PostMapping
 	public String addPost(@ModelAttribute("post") Post post,
@@ -117,12 +108,18 @@ public class MemberController {
 		return user(model, id, decText);
 	}
 
-	@GetMapping("/addToFriend")
-	private String addToFriend(@ModelAttribute("friend") Friends friend,
+	@GetMapping("/follow")
+	private String followFriend(@ModelAttribute("follower") Followers follower,
 			@PathVariable int id) {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
-		userService.addFriend(user, friend, id);
+		userService.follow(user, follower, id);
+		return "redirect:/member/{id}";
+	}
+
+	@GetMapping("/deleteRequest")
+	private String delRequest(@PathVariable int id) {
+		userService.deleteRequest(id);
 		return "redirect:/member/{id}";
 	}
 
@@ -132,6 +129,15 @@ public class MemberController {
 		User user = (User) SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		userService.removeFriend(user, friend, id);
+		return "redirect:/member/{id}";
+	}
+
+	@GetMapping("/confirm")
+	private String addToFriend(Model model,
+			@ModelAttribute("friend") Friends friend, @PathVariable int id) {
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		userService.addFriend(user, friend, id);
 		return "redirect:/member/{id}";
 	}
 

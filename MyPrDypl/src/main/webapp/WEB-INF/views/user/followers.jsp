@@ -62,12 +62,12 @@
 		<div class="row">
 			<div class="col-md-3 col-md-offset-5">
 			<ul class="nav nav-pills">
-		            <li class="active"><a href="/member/${userPage.id}/friends">Friends</a></li>
-		            <li><a href="/member/${userPage.id}/followers">Followers</a></li>
+		            <li><a href="/member/${userPage.id}/friends">Friends</a></li>
+		            <li class="active"><a href="/member/${userPage.id}/followers">Followers</a></li>
 		    </ul>
 		    </div>
    		 </div>
-		<c:forEach items="${friends.users}" var="user">
+		<c:forEach items="${followers.users}" var="user">
 			<div class="row block">
 				<div class="col-md-8">
 					<a href="/member/${user.id}">${user.email}</a>
@@ -78,7 +78,7 @@
 				<sec:authentication property="principal.id" var="userId"/>
 				<c:if test="${userId == userPage.id}">
 				<div class="col-md-2">
-					<a href="/member/${userId}/friends/delete/${user.id}"><button type="button" class="btn btn-danger btn-xs">Remove</button></a>
+					<a href="/member/${userId}/followers/confirm/${user.id}"><button type="button" class="btn btn-warning btn-xs">Confirm</button></a>
 				</div>
 				</c:if>
 			</div>
